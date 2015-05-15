@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'hugo'
 
 android {
     compileSdkVersion 22
@@ -8,18 +11,55 @@ android {
         applicationId "com.ftinc.lol52"
         minSdkVersion 16
         targetSdkVersion 22
+
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.52inc:52Kit-core:0.3.0-SNAPSHOT'
+    compile 'com.52inc:52Kit-drawer:0.3.0-SNAPSHOT'
+    compile 'com.52inc:52Kit-winds:0.3.0-SNAPSHOT'
+    compile 'com.52inc:52Kit-attributr:0.3.0-SNAPSHOT'
+
+    compile 'com.android.support:recyclerview-v7:22.+'
+    compile 'com.r0adkll:slidableactivity:2.0.+'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.0'
+    compile 'com.ogaclejapan.smarttablayout:library:1.1.2@aar'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.okhttp:okhttp:2.3.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+
+    compile 'com.bluelinelabs:logansquare:1.0.6'
+    apt 'com.bluelinelabs:logansquare-compiler:1.0.6'
+
+    compile 'com.michaelpardo:ollie:0.3.2-SNAPSHOT'
+    apt 'com.michaelpardo:ollie-compiler:0.3.2-SNAPSHOT'
+
+    // Dagger 2
+    compile 'com.google.dagger:dagger:2.0'
+    apt 'com.google.dagger:dagger-compiler:2.0'
+
 }

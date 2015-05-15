@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">android-lol52</string>
+    <string name="app_name">lol52</string>
+
+    <!-- Network Error Messages -->
+    <string name="error_network">A network error has occured, please check your connection.</string>
+    <string name="error_no_response">There was no response from the server.</string>
+    <string name="error_network_http_error">There was an issue in communicating with the server.</string>
+    <string name="error_unknown">An unknown error has occurred.</string>
+    <string name="empty_message_gallery">There are no lolcommits to be found.</string>
+
+    <!-- -->
+
 </resources>
