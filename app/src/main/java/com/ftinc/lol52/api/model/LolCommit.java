@@ -1,5 +1,7 @@
 package com.ftinc.lol52.api.model;
 
+import android.text.TextUtils;
+
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 
@@ -57,6 +59,13 @@ public class LolCommit extends Model {
      * Methods
      *
      */
+
+    public String getRepo(){
+        if(TextUtils.isEmpty(repo) || repo.trim().equalsIgnoreCase("/")){
+            return optionalKey;
+        }
+        return repo;
+    }
 
     /**
      * Convert object into string representation

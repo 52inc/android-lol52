@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import ollie.query.Select;
 import rx.Observable;
+import rx.functions.Action1;
 
 /**
  * Created by r0adkll on 5/15/15.
@@ -47,7 +48,7 @@ public class GalleryPresenterImpl implements GalleryPresenter {
                 })
                 .collect(() -> new ArrayList<LolCommit>(), (lolCommits, lolCommit) -> lolCommits.add(lolCommit))
                 .compose(RxUtils.applyIOSchedulers())
-                .subscribe();
+                .subscribe(lolCommits -> mView.hideLoading(), throwable -> mView.hideLoading());
 
 
     }

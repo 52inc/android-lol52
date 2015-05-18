@@ -5,6 +5,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -63,7 +64,7 @@ public class GalleryActivity extends BaseActivity implements GalleryView, Loader
         // Setup with recyclerview
         mAdapter.setEmptyView(mEmptyView);
         mRecycler.setAdapter(mAdapter);
-        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mRecycler.setLayoutManager(new GridLayoutManager(this, 2));
         mRecycler.setItemAnimator(new DefaultItemAnimator());
         mAdapter.setOnItemClickListener(this);
 
@@ -94,6 +95,11 @@ public class GalleryActivity extends BaseActivity implements GalleryView, Loader
     }
 
     @Override
+    public void hideLoading() {
+        mRefresh.setRefreshing(false);
+    }
+
+    @Override
     public Loader<List<LolCommit>> onCreateLoader(int id, Bundle args) {
         return mPresenter.provideLoader(this);
     }
@@ -101,7 +107,6 @@ public class GalleryActivity extends BaseActivity implements GalleryView, Loader
     @Override
     public void onLoadFinished(Loader<List<LolCommit>> loader, List<LolCommit> data) {
         if(!isFinishing()){
-            mRefresh.setRefreshing(false);
             mAdapter.clear();
             mAdapter.addAll(data);
             mAdapter.notifyDataSetChanged();
@@ -111,7 +116,6 @@ public class GalleryActivity extends BaseActivity implements GalleryView, Loader
     @Override
     public void onLoaderReset(Loader<List<LolCommit>> loader) {
         if(!isFinishing()){
-            mRefresh.setRefreshing(false);
             mAdapter.clear();
             mAdapter.notifyDataSetChanged();
         }

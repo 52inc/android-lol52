@@ -21,6 +21,8 @@
             android:layout_height="match_parent"
             android:paddingTop="@dimen/half_padding"
             android:paddingBottom="@dimen/half_padding"
+            android:paddingLeft="@dimen/half_padding"
+            android:paddingRight="@dimen/half_padding"
             android:clipToPadding="false"
             />
 
