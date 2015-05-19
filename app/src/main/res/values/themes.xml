@@ -14,4 +14,8 @@
 
     </style>
 
+    <style name="Theme.Lol52" parent="Theme.Lol52.Base">
+        <!-- Nothing to add here-->
+    </style>
+
 </resources>

@@ -1,18 +1,11 @@
-package com.ftinc.lol52.ui.adapters;
+package com.ftinc.lol52.ui.screens.detail;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.ftinc.kit.adapter.BetterRecyclerAdapter;
-import com.ftinc.kit.widget.AspectRatioImageView;
-import com.ftinc.lol52.R;
 import com.ftinc.lol52.api.model.LolCommit;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -23,55 +16,75 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import javax.inject.Inject;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+import ollie.Model;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifDrawableBuilder;
-import pl.droidsonroids.gif.GifImageView;
 import timber.log.Timber;
 
 /**
- * Created by r0adkll on 5/15/15.
+ * Created by r0adkll on 5/18/15.
  */
-public class GalleryAdapter extends BetterRecyclerAdapter<LolCommit, GalleryAdapter.GalleryViewHolder> {
+public class CommitDetailPresenterImpl implements CommitDetailPresenter {
 
-    @Inject
-    OkHttpClient client;
+    private final SimpleDateFormat mDateFormat = new SimpleDateFormat("MMM, d yyyy h:mm a");
+
+    private CommitDetailView mView;
+    private LolCommit mCommit;
+    private OkHttpClient mClient;
 
     /**
      * Constructor
      */
-    @Inject
-    public GalleryAdapter() {
-        super();
+    public CommitDetailPresenterImpl(CommitDetailView view,
+                                     OkHttpClient client) {
+        this.mView = view;
+        this.mClient = client;
     }
 
 
     @Override
-    public GalleryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_gallery_item, parent, false);
-        return new GalleryViewHolder(view);
+    public void parseExtras(Context ctx, Intent intent, Bundle icicle) {
+
+        long commitId = -1;
+        if(intent != null){
+            commitId = intent.getLongExtra(CommitDetailActivity.EXTRA_COMMIT, -1);
+        }else if(icicle != null){
+            commitId = icicle.getLong(CommitDetailActivity.EXTRA_COMMIT, -1);
+        }
+
+        if(commitId != -1){
+            mCommit = Model.find(LolCommit.class, commitId);
+        }else{
+            // TODO: Exit activity
+            return;
+        }
+
+        // Inflate UI with commit data
+        mView.setAuthor(mCommit.authorName, mCommit.authorEmail);
+        mView.setCommitHash(mCommit.commitHash);
+        mView.setMessage(mCommit.message);
+        mView.setRepository(mCommit.getRepo());
+        mView.setTimestamp(mDateFormat.format(mCommit.getTime()));
+
+        loadGifImage(ctx);
     }
 
     @Override
-    public void onBindViewHolder(GalleryViewHolder holder, int i) {
-        super.onBindViewHolder(holder, i);
-        Context ctx = holder.itemView.getContext();
-        LolCommit commit = getItem(i);
+    public void saveInstanceState(Bundle outState) {
+        outState.putLong(CommitDetailActivity.EXTRA_COMMIT, mCommit.id);
+    }
 
-        holder.title.setText(commit.getRepo());
-        holder.subtitle.setText(commit.authorName);
+    private void loadGifImage(Context ctx){
 
+        // 1) Calculate image file location
         File outputDir = new File(ctx.getFilesDir(), "gifs");
         outputDir.mkdir();
-        File output = new File(outputDir, commit.commitHash.concat(".gif"));
+        File output = new File(outputDir, mCommit.commitHash.concat(".gif"));
 
         if(output.exists()){
 
@@ -80,7 +93,7 @@ public class GalleryAdapter extends BetterRecyclerAdapter<LolCommit, GalleryAdap
                         .from(output)
                         .build();
 
-                holder.gifImage.setImageDrawable(drawable);
+                mView.setGifImage(drawable);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -88,14 +101,14 @@ public class GalleryAdapter extends BetterRecyclerAdapter<LolCommit, GalleryAdap
         }else {
 
             // Load the image
-            Timber.i("Loading gif @ %s", commit.imageUrl);
+            Timber.i("Loading gif @ %s", mCommit.imageUrl);
 
             Request request = new Request.Builder()
-                    .url(commit.imageUrl)
+                    .url(mCommit.imageUrl)
                     .get()
                     .build();
 
-            client.newCall(request).enqueue(new Callback() {
+            mClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Request request, IOException e) {
 
@@ -116,7 +129,7 @@ public class GalleryAdapter extends BetterRecyclerAdapter<LolCommit, GalleryAdap
                                         .from(output)
                                         .build();
 
-                                holder.gifImage.setImageDrawable(drawable);
+                                mView.setGifImage(drawable);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -126,18 +139,6 @@ public class GalleryAdapter extends BetterRecyclerAdapter<LolCommit, GalleryAdap
             });
         }
 
-    }
-
-    public static class GalleryViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.gif_image)
-        AspectRatioImageView gifImage;
-        @InjectView(R.id.title)         TextView title;
-        @InjectView(R.id.subtitle)      TextView subtitle;
-
-        public GalleryViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.inject(this, itemView);
-        }
     }
 
 }

@@ -1,14 +1,25 @@
 package com.ftinc.lol52.ui.screens.gallery;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Pair;
+import android.view.View;
+import android.widget.TextView;
 
 import com.ftinc.kit.util.RxUtils;
+import com.ftinc.kit.util.UIUtils;
+import com.ftinc.kit.widget.AspectRatioImageView;
+import com.ftinc.lol52.R;
 import com.ftinc.lol52.api.ApiService;
 import com.ftinc.lol52.api.model.LolCommit;
+import com.ftinc.lol52.ui.screens.detail.CommitDetailActivity;
 import com.ftinc.lol52.util.ModelLoader;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import ollie.query.Select;
 import rx.Observable;
 import rx.functions.Action1;
@@ -54,8 +65,10 @@ public class GalleryPresenterImpl implements GalleryPresenter {
     }
 
     @Override
-    public void onItemClicked(LolCommit lolCommit) {
-
+    public void onItemClicked(Activity ctx, LolCommit lolCommit, View view) {
+        Intent detailIntent = CommitDetailActivity.createIntent(ctx, lolCommit);
+        AspectRatioImageView gifImage = ButterKnife.findById(view, R.id.gif_image);
+        UIUtils.startActivityWithTransition(ctx, detailIntent, Pair.create(gifImage, "gif_image"));
     }
 
     @Override

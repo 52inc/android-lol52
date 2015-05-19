@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 
+import java.util.Date;
+
 import ollie.Model;
 import ollie.annotation.Column;
 import ollie.annotation.Table;
@@ -65,6 +67,10 @@ public class LolCommit extends Model {
             return optionalKey;
         }
         return repo;
+    }
+
+    public Date getTime(){
+        return new Date(timestamp * 1000L);
     }
 
     /**

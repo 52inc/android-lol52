@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ftinc.kit.adapter.BetterRecyclerAdapter;
+import com.ftinc.kit.util.Utils;
 import com.ftinc.kit.widget.EmptyView;
 import com.ftinc.lol52.AppComponent;
 import com.ftinc.lol52.R;
@@ -18,6 +19,7 @@ import com.ftinc.lol52.api.model.LolCommit;
 import com.ftinc.lol52.ui.adapters.GalleryAdapter;
 import com.ftinc.lol52.ui.model.BaseActivity;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -109,6 +111,7 @@ public class GalleryActivity extends BaseActivity implements GalleryView, Loader
         if(!isFinishing()){
             mAdapter.clear();
             mAdapter.addAll(data);
+            mAdapter.sort((lhs, rhs) -> Utils.compare(rhs.timestamp, lhs.timestamp));
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -123,6 +126,6 @@ public class GalleryActivity extends BaseActivity implements GalleryView, Loader
 
     @Override
     public void onItemClick(View view, LolCommit lolCommit, int i) {
-        mPresenter.onItemClicked(lolCommit);
+        mPresenter.onItemClicked(this, lolCommit, view);
     }
 }

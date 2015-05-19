@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ftinc.kit.widget.AspectRatioImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:minHeight="200dp"
+        tools:background="@color/primary"
+
+        android:transitionName="gif_image"
+        />
+
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:minHeight="?attr/actionBarSize"
+
+        android:gravity="start|bottom"
+        android:background="?attr/colorPrimary"
+        android:elevation="@dimen/appbar_elevation"
+        android:paddingBottom="@dimen/activity_padding"
+
+        android:theme="?attr/toolbarTheme"
+        app:popupTheme="?attr/toolbarPopupTheme"
+
+        android:transitionName="toolbar"
+        android:visibility="invisible"
+        />
+
+    <LinearLayout
+        android:id="@+id/author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:alpha="0"
+        >
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="@dimen/activity_padding"
+
+            android:tint="@color/grey_600"
+            android:src="@drawable/ic_person_black_24dp"
+            />
+
+        <TextView
+            android:id="@+id/text_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="@dimen/activity_padding"
+
+            tools:text="r0adkll\nveedubusc@gmail.com"
+            android:textSize="@dimen/subhead"
+            android:textColor="@color/black87"
+
+            android:transitionName="author"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:alpha="0">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="@dimen/activity_padding"
+
+            android:tint="@color/grey_600"
+            android:src="@drawable/ic_time_black_24dp"
+            />
+
+        <TextView
+            android:id="@+id/text_timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_padding"
+            android:layout_gravity="start|center_vertical"
+
+            tools:text="Sun 6, 2015 12:45 PM"
+            android:textSize="@dimen/subhead"
+            android:textColor="@color/black87"
+            android:transitionName="time"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:alpha="0">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="@dimen/activity_padding"
+
+            android:tint="@color/grey_600"
+            android:src="@drawable/ic_message_black_24dp"
+            />
+
+        <TextView
+            android:id="@+id/text_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_padding"
+            android:layout_marginTop="16dp"
+
+            tools:text="@string/placeholder_lorem_ipsum_long"
+            android:textSize="@dimen/subhead"
+            android:textColor="@color/black87"
+            android:transitionName="message"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
