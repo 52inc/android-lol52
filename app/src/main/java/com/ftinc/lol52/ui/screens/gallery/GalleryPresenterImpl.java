@@ -55,6 +55,7 @@ public class GalleryPresenterImpl implements GalleryPresenter {
                     }
 
                     lolCommit.save();
+
                     return lolCommit;
                 })
                 .collect(() -> new ArrayList<LolCommit>(), (lolCommits, lolCommit) -> lolCommits.add(lolCommit))

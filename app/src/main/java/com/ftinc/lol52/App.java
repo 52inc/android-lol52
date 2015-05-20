@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 
 import com.ftinc.kit.mvp.BaseApplication;
+import com.ftinc.lol52.data.LolProvider;
 
 import javax.inject.Inject;
 
@@ -17,12 +18,10 @@ import timber.log.Timber;
  */
 public class App extends BaseApplication{
 
-    private static final String DB_NAME = "lol52.db";
-    private static final int DB_VERSION = 1;
     private AppComponent mComponent;
 
     @Inject
-    LogLevel mLogLevel;
+    LolProvider mProvider;
 
     @Override
     public void onCreate() {
@@ -32,10 +31,8 @@ public class App extends BaseApplication{
         setupGraph();
 
         // Initialize Ollie
-        Ollie.init(this,
-                DB_NAME,
-                DB_VERSION,
-                mLogLevel);
+        mProvider.onCreate();
+
     }
 
 
