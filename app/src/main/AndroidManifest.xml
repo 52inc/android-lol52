@@ -19,7 +19,6 @@
 
         <activity android:name=".ui.screens.detail.CommitDetailActivity" />
 
-
         <provider
             android:authorities="${applicationId}"
             android:name=".data.LolProvider"
