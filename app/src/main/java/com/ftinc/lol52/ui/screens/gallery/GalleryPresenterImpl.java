@@ -50,11 +50,9 @@ public class GalleryPresenterImpl implements GalleryPresenter {
                             .where("hash=?", lolCommit.commitHash)
                             .fetchSingle();
 
-                    if(existing != null){
-                        lolCommit.id = existing.id;
+                    if(existing == null){
+                        lolCommit.save();
                     }
-
-                    lolCommit.save();
 
                     return lolCommit;
                 })
